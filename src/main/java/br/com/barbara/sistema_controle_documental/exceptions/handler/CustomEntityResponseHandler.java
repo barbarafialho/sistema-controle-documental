@@ -2,6 +2,7 @@ package br.com.barbara.sistema_controle_documental.exceptions.handler;
 
 import br.com.barbara.sistema_controle_documental.exceptions.ExceptionResponse;
 import br.com.barbara.sistema_controle_documental.exceptions.ResourceNotFoundException;
+import br.com.barbara.sistema_controle_documental.exceptions.TokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -45,5 +46,15 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
                 request.getDescription(false)
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
+    }
+
+    @ExceptionHandler(TokenException.class)
+    public final ResponseEntity<ExceptionResponse> handleTokenException(Exception ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -1,12 +1,17 @@
 package br.com.barbara.sistema_controle_documental.model;
 
+import br.com.barbara.sistema_controle_documental.model.enuns.Role;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +29,14 @@ public class Usuario {
     @Column(name = "cpf_cnpj", nullable = false, unique = true)
     private String cpfCnpj; // cpf ou cnpj
 
+    @Column(nullable = false)
+    private boolean ativo = true;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Propriedade> propriedadeList;
 
-    public List<Propriedade> getPropriedadeList() {
-        return propriedadeList;
-    }
-
-    public void setPropriedadeList(List<Propriedade> propriedadeList) {
-        this.propriedadeList = propriedadeList;
-    }
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -71,7 +74,70 @@ public class Usuario {
         return cpfCnpj;
     }
 
-    public void setCpfCnpj(String identificacao) {
-        this.cpfCnpj = identificacao;
+    public void setCpfCnpj(String cpfCnpj) {
+        this.cpfCnpj = cpfCnpj;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public List<Propriedade> getPropriedadeList() {
+        return propriedadeList;
+    }
+
+    public void setPropriedadeList(List<Propriedade> propriedadeList) {
+        this.propriedadeList = propriedadeList;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == Role.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.ativo;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.ativo;
     }
 }

@@ -22,27 +22,27 @@ public class CondicionanteController {
 
     @GetMapping("/documento/{documentoId}")
     public ResponseEntity<List<CondicionanteResponseDTO>> listarPorDocumento(@PathVariable Long documentoId) {
-        return ResponseEntity.ok(condicionanteService.findByDocumento(documentoId));
+        return ResponseEntity.ok(condicionanteService.listarPorDocumento(documentoId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CondicionanteResponseDTO> listarPorId(@PathVariable("id") Long id){
-        return ResponseEntity.ok(condicionanteService.findById(id));
+        return ResponseEntity.ok(condicionanteService.listarPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<CondicionanteResponseDTO> criar(@RequestBody CondicionanteRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(condicionanteService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(condicionanteService.salvar(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CondicionanteResponseDTO> atualizar(@PathVariable Long id, @RequestBody CondicionanteRequestDTO dto) {
-        return ResponseEntity.ok(condicionanteService.update(id, dto));
+        return ResponseEntity.ok(condicionanteService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        condicionanteService.delete(id);
+        condicionanteService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

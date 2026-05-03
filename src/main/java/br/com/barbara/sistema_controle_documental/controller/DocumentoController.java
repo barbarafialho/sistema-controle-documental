@@ -22,27 +22,27 @@ public class DocumentoController {
 
     @GetMapping
     public ResponseEntity<List<DocumentoResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(documentoService.findAll());
+        return ResponseEntity.ok(documentoService.listarTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DocumentoResponseDTO> listarPorId(@PathVariable("id") Long id){
-        return ResponseEntity.ok(documentoService.findById(id));
+        return ResponseEntity.ok(documentoService.listarPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<DocumentoResponseDTO> criar(@RequestBody DocumentoRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(documentoService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(documentoService.salvar(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DocumentoResponseDTO> atualizar(@PathVariable Long id, @RequestBody DocumentoRequestDTO dto) {
-        return ResponseEntity.ok(documentoService.update(id, dto));
+        return ResponseEntity.ok(documentoService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        documentoService.delete(id);
+        documentoService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

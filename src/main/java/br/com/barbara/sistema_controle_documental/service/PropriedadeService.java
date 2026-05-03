@@ -21,25 +21,25 @@ public class PropriedadeService {
         this.propriedadeMapper = propriedadeMapper;
     }
 
-    public List<PropriedadeResponseDTO> findAll() {
+    public List<PropriedadeResponseDTO> listarTodos() {
         var listaEntidades = propriedadeRepository.findAll();
         return propriedadeMapper.toResponseDTOList(listaEntidades);
     }
 
-    public PropriedadeResponseDTO findById(Long id) {
+    public PropriedadeResponseDTO listarPorId(Long id) {
         var entidade = propriedadeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Propriedade não encontrada"));
         return propriedadeMapper.toResponseDTO(entidade);
     }
 
     @Transactional
-    public PropriedadeResponseDTO save(PropriedadeRequestDTO dto) {
+    public PropriedadeResponseDTO salvar(PropriedadeRequestDTO dto) {
         var entidade = propriedadeRepository.save(propriedadeMapper.toEntity(dto));
         return propriedadeMapper.toResponseDTO(entidade);
     }
 
     @Transactional
-    public PropriedadeResponseDTO update(Long id, PropriedadeRequestDTO dto) {
+    public PropriedadeResponseDTO atualizar(Long id, PropriedadeRequestDTO dto) {
         Propriedade propriedadeBD = propriedadeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Propriedade não encontrada"));
 
@@ -48,7 +48,7 @@ public class PropriedadeService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void excluir(Long id) {
         var entidade = propriedadeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Propriedade não encontrada"));
         propriedadeRepository.delete(entidade);

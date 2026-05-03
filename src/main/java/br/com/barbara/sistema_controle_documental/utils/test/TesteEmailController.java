@@ -1,4 +1,4 @@
-package br.com.barbara.sistema_controle_documental.utils.teste;
+package br.com.barbara.sistema_controle_documental.utils.test;
 
 import br.com.barbara.sistema_controle_documental.task.DocumentoSchedule;
 import org.springframework.http.ResponseEntity;

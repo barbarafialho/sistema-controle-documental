@@ -22,27 +22,27 @@ public class ConfigEmailController {
 
     @GetMapping
     public ResponseEntity<List<ConfigEmailResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(configService.findAll());
+        return ResponseEntity.ok(configService.listarTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ConfigEmailResponseDTO> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(configService.findById(id));
+        return ResponseEntity.ok(configService.listarPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<ConfigEmailResponseDTO> criarNova(@RequestBody ConfigEmailRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(configService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(configService.salvar(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ConfigEmailResponseDTO> atualizar(@PathVariable Long id, @RequestBody ConfigEmailRequestDTO dto) {
-        return ResponseEntity.ok(configService.update(id, dto));
+        return ResponseEntity.ok(configService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        configService.delete(id);
+        configService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

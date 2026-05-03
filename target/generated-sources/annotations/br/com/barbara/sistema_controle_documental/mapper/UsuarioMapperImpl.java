@@ -3,6 +3,7 @@ package br.com.barbara.sistema_controle_documental.mapper;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioRequestDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioResponseDTO;
 import br.com.barbara.sistema_controle_documental.model.Usuario;
+import br.com.barbara.sistema_controle_documental.model.enuns.Role;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-04-26T11:32:04-0300",
+    date = "2026-05-01T20:20:11-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)"
 )
 @Component
@@ -28,6 +29,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         usuario.setEmail( dto.email() );
         usuario.setSenha( dto.senha() );
         usuario.setCpfCnpj( dto.cpfCnpj() );
+        usuario.setRole( dto.role() );
 
         return usuario;
     }
@@ -42,13 +44,17 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         String nome = null;
         String email = null;
         String cpfCnpj = null;
+        Role role = null;
+        boolean ativo = false;
 
         id = usuario.getId();
         nome = usuario.getNome();
         email = usuario.getEmail();
         cpfCnpj = usuario.getCpfCnpj();
+        role = usuario.getRole();
+        ativo = usuario.isAtivo();
 
-        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO( id, nome, email, cpfCnpj );
+        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO( id, nome, email, cpfCnpj, role, ativo );
 
         return usuarioResponseDTO;
     }
@@ -63,6 +69,7 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         entity.setEmail( dto.email() );
         entity.setSenha( dto.senha() );
         entity.setCpfCnpj( dto.cpfCnpj() );
+        entity.setRole( dto.role() );
 
         return entity;
     }

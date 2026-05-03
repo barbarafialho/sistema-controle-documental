@@ -5,7 +5,6 @@ import br.com.barbara.sistema_controle_documental.dto.CondicionanteResponseDTO;
 import br.com.barbara.sistema_controle_documental.exceptions.ResourceNotFoundException;
 import br.com.barbara.sistema_controle_documental.mapper.CondicionanteMapper;
 import br.com.barbara.sistema_controle_documental.model.Condicionante;
-import br.com.barbara.sistema_controle_documental.model.Documento;
 import br.com.barbara.sistema_controle_documental.repository.CondicionanteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,25 +21,25 @@ public class CondicionanteService {
         this.condicionanteMapper = condicionanteMapper;
     }
 
-    public List<CondicionanteResponseDTO> findByDocumento(Long id) {
+    public List<CondicionanteResponseDTO> listarPorDocumento(Long id) {
         var listaEntidades = condicionanteRepository.findByDocumentoId(id);
         return condicionanteMapper.toResponseDTOList(listaEntidades);
     }
 
-    public CondicionanteResponseDTO findById(Long id) {
+    public CondicionanteResponseDTO listarPorId(Long id) {
         var entidade = condicionanteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Condicionante não encontrada"));
         return condicionanteMapper.toResponseDTO(entidade);
     }
 
     @Transactional
-    public CondicionanteResponseDTO save(CondicionanteRequestDTO dto) {
+    public CondicionanteResponseDTO salvar(CondicionanteRequestDTO dto) {
         var entidade = condicionanteRepository.save(condicionanteMapper.toEntity(dto));
         return condicionanteMapper.toResponseDTO(entidade);
     }
 
     @Transactional
-    public CondicionanteResponseDTO update(Long id, CondicionanteRequestDTO dto) {
+    public CondicionanteResponseDTO atualizar(Long id, CondicionanteRequestDTO dto) {
         Condicionante condicionanteBD = condicionanteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Condicionante não encontrada"));
 
@@ -49,7 +48,7 @@ public class CondicionanteService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void excluir(Long id) {
         var entidade = condicionanteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Condicionante não encontrada"));
         condicionanteRepository.delete(entidade);

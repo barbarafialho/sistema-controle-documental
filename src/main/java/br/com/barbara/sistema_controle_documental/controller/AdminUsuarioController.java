@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios")
-@Tag(name = "Usuário", description = "Endpoint para gerenciamento de usuários")
-public class UsuarioController {
+@RequestMapping("/api/admin/usuarios")
+@Tag(name = "Admin - Usuários", description = "Endpoints administrativos para gerenciamento de usuários")
+public class AdminUsuarioController {
 
     private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public AdminUsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
@@ -37,12 +37,6 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> criar(@RequestBody UsuarioRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.salvar(dto));
-    }
-
-    @PutMapping("/perfil")
-    public ResponseEntity<UsuarioResponseDTO> atualizarMeusDados(@RequestBody PerfilDTO dto) {
-        Usuario logado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(usuarioService.atualizarPerfil(dto, logado));
     }
 
     @PutMapping("/{id}/desativar")

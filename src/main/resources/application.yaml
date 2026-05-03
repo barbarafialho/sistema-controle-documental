@@ -20,10 +20,16 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
-spring-doc:
-  paths-to-match: /api/**/**
+springdoc:
+  api-docs:
+    path: /v3/api-docs
   swagger-ui:
-    use-root-path: true
+    path: /swagger-ui.html
+  paths-to-match: /api/**
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: ${JWT_EXPIRATION}
 logging:
   level:
     br.com.barbara.sistema_controle_documental: DEBUG

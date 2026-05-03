@@ -7,7 +7,6 @@ import br.com.barbara.sistema_controle_documental.repository.DocumentoRepository
 import br.com.barbara.sistema_controle_documental.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,7 @@ public class DocumentoSchedule {
         this.emailService = emailService;
     }
 
-    private Logger logger = LoggerFactory.getLogger(DocumentoSchedule.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(DocumentoSchedule.class.getName());
 
     @Scheduled(cron = "0 0 2 * * *")
     @Transactional
@@ -63,7 +62,7 @@ public class DocumentoSchedule {
         DadosEmail dados = documento.getDados();
 
         if (dados == null) {
-            logger.warn("Documento " + documento.getId() + " falta informações sobre propriedade ou responsável.");
+            logger.warn("Documento {} falta informações sobre propriedade ou responsável.", documento.getId());
             return;
         }
 
@@ -88,7 +87,7 @@ public class DocumentoSchedule {
             emailService.enviarEmailService(dados.email(), assunto, mensagem.toString());
             logger.info("E-mail enviado ({}) para: {}", assunto, dados.email());
         } catch (Exception e) {
-            logger.error("Falha ao enviar e-mail do documento " + documento.getId(), e);
+            logger.error("Falha ao enviar e-mail do documento {}", documento.getId(), e);
         }
     }
 }

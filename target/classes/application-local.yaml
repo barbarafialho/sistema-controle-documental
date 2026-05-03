@@ -2,3 +2,7 @@ spring:
   datasource:
     username: root
     password: bsiserver26
+security:
+  jwt:
+    secret: b4C3CIoD/utV3R+xAMYEvDMqjUxfe5VWaY5yCID13l8=
+    expiration: 43200000

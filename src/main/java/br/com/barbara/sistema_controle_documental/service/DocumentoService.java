@@ -24,12 +24,12 @@ public class DocumentoService {
         this.documentoMapper = documentoMapper;
     }
 
-    public List<DocumentoResponseDTO> findAll(){
+    public List<DocumentoResponseDTO> listarTodos(){
         var listaEntidades = documentoRepository.findAll();
         return documentoMapper.toResponseDTOList(listaEntidades);
     }
 
-    public DocumentoResponseDTO findById(Long id){
+    public DocumentoResponseDTO listarPorId(Long id){
         var entidade = documentoRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID"));
 
@@ -37,7 +37,7 @@ public class DocumentoService {
     }
 
     @Transactional
-    public DocumentoResponseDTO save(DocumentoRequestDTO documentoRequestDTO){
+    public DocumentoResponseDTO salvar(DocumentoRequestDTO documentoRequestDTO){
         var entidade = documentoMapper.toEntity(documentoRequestDTO);
 
         // Checa a data de validade do documento
@@ -53,7 +53,7 @@ public class DocumentoService {
     }
 
     @Transactional
-    public DocumentoResponseDTO update(Long id, DocumentoRequestDTO documentoRequestDTO){
+    public DocumentoResponseDTO atualizar(Long id, DocumentoRequestDTO documentoRequestDTO){
         Documento documentoBD = documentoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID"));
 
@@ -63,7 +63,7 @@ public class DocumentoService {
     }
 
     @Transactional
-    public void delete(Long id){
+    public void excluir(Long id){
         documentoRepository.delete(documentoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID")));
     }

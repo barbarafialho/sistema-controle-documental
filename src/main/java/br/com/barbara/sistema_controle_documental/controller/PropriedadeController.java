@@ -2,7 +2,6 @@ package br.com.barbara.sistema_controle_documental.controller;
 
 import br.com.barbara.sistema_controle_documental.dto.PropriedadeRequestDTO;
 import br.com.barbara.sistema_controle_documental.dto.PropriedadeResponseDTO;
-import br.com.barbara.sistema_controle_documental.dto.UsuarioResponseDTO;
 import br.com.barbara.sistema_controle_documental.service.PropriedadeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -23,27 +22,27 @@ public class PropriedadeController {
 
     @GetMapping
     public ResponseEntity<List<PropriedadeResponseDTO>> listarTodos() {
-        return ResponseEntity.ok(propriedadeService.findAll());
+        return ResponseEntity.ok(propriedadeService.listarTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PropriedadeResponseDTO> listarPorId(@PathVariable("id") Long id){
-        return ResponseEntity.ok(propriedadeService.findById(id));
+        return ResponseEntity.ok(propriedadeService.listarPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<PropriedadeResponseDTO> criar(@RequestBody PropriedadeRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(propriedadeService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(propriedadeService.salvar(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PropriedadeResponseDTO> atualizar(@PathVariable Long id, @RequestBody PropriedadeRequestDTO dto) {
-        return ResponseEntity.ok(propriedadeService.update(id, dto));
+        return ResponseEntity.ok(propriedadeService.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        propriedadeService.delete(id);
+        propriedadeService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

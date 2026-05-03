@@ -21,25 +21,25 @@ public class ConfigEmailService {
         this.mapper = mapper;
     }
 
-    public List<ConfigEmailResponseDTO> findAll() {
+    public List<ConfigEmailResponseDTO> listarTodos() {
         return mapper.toResponseDTOList(repository.findAll());
     }
 
-    public ConfigEmailResponseDTO findById(Long id) {
+    public ConfigEmailResponseDTO listarPorId(Long id) {
         var entidade = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Configuração não encontrada"));
         return mapper.toResponseDTO(entidade);
     }
 
     @Transactional
-    public ConfigEmailResponseDTO save(ConfigEmailRequestDTO dto) {
+    public ConfigEmailResponseDTO salvar(ConfigEmailRequestDTO dto) {
         var entidade = mapper.toEntity(dto);
         entidade.setAtualizadoEm(LocalDateTime.now()); // Seta a data na criação
         return mapper.toResponseDTO(repository.save(entidade));
     }
 
     @Transactional
-    public ConfigEmailResponseDTO update(Long id, ConfigEmailRequestDTO dto) {
+    public ConfigEmailResponseDTO atualizar(Long id, ConfigEmailRequestDTO dto) {
         var configBD = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Configuração não encontrada"));
 
@@ -50,7 +50,7 @@ public class ConfigEmailService {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void excluir(Long id) {
         var entidade = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Configuração não encontrada"));
         repository.delete(entidade);

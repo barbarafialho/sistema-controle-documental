@@ -1,5 +1,6 @@
 package br.com.barbara.sistema_controle_documental.mapper;
 
+import br.com.barbara.sistema_controle_documental.dto.PerfilResponseDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioRequestDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioResponseDTO;
 import br.com.barbara.sistema_controle_documental.model.Usuario;
@@ -16,7 +17,9 @@ public interface UsuarioMapper {
     UsuarioResponseDTO toResponseDTO(Usuario usuario);
 
     @Mapping(target = "id", ignore = true)
-    Usuario updateEntityFromDto(UsuarioRequestDTO dto, @MappingTarget Usuario entity);
+    Usuario updateEntityFromDto(PerfilResponseDTO dto, @MappingTarget Usuario entity);
 
     List<UsuarioResponseDTO> toResponseDTOList(List<Usuario> usuarios);
+
+    PerfilResponseDTO toPerfilResponseDTO(Usuario usuario);
 }

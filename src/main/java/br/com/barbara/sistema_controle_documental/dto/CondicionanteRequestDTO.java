@@ -10,6 +10,7 @@ public record CondicionanteRequestDTO(
         @JsonFormat(pattern = "dd/MM/yyyy")
         @Schema(example = "01/05/2026", type = "string", format = "date")
         LocalDate dataPrazo,
+        boolean concluida,
         Long documentoId
 ) {
 }

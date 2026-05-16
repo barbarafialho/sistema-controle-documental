@@ -3,6 +3,7 @@ package br.com.barbara.sistema_controle_documental.model;
 import br.com.barbara.sistema_controle_documental.model.enuns.StatusDocumento;
 import br.com.barbara.sistema_controle_documental.model.enuns.TipoDocumento;
 import br.com.barbara.sistema_controle_documental.model.records.DadosEmail;
+import br.com.barbara.sistema_controle_documental.model.validate.UsuarioInterface;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "documento")
-public class Documento {
+public class Documento implements UsuarioInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +53,11 @@ public class Documento {
 
     @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
+
+    @Override
+    public Long getUsuarioID() {
+        return this.propriedade.getUsuario().getId();
+    }
 
     //Antes de inserir ou atualizar, insere a data atual
     @PrePersist

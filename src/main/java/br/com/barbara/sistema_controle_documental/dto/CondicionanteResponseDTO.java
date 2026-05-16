@@ -11,6 +11,7 @@ public record CondicionanteResponseDTO(
         @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate dataPrazo,
         boolean concluida,
+        String caminhoArquivo,
         Long documentoId,
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime criadoEm,

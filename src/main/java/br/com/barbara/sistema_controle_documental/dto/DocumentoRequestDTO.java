@@ -16,7 +16,6 @@ public record DocumentoRequestDTO(
         @JsonFormat(pattern = "dd/MM/yyyy")
         @Schema(example = "01/05/2027", type = "string", format = "date")
         LocalDate dataVencimento,
-        String caminhoArquivo,
         Long propriedadeId
 ) {
 }

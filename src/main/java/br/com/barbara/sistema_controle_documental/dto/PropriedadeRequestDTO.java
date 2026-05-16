@@ -4,7 +4,6 @@ public record PropriedadeRequestDTO(
         String nome,
         String cnpj,
         Double areaTotal,
-        String cidade,
-        Long usuarioId
+        String cidade
 ) {
 }

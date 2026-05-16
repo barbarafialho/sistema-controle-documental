@@ -1,5 +1,6 @@
 package br.com.barbara.sistema_controle_documental.mapper;
 
+import br.com.barbara.sistema_controle_documental.dto.PerfilResponseDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioRequestDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioResponseDTO;
 import br.com.barbara.sistema_controle_documental.model.Usuario;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-01T20:20:11-0300",
+    date = "2026-05-15T21:24:12-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)"
 )
 @Component
@@ -60,16 +61,14 @@ public class UsuarioMapperImpl implements UsuarioMapper {
     }
 
     @Override
-    public Usuario updateEntityFromDto(UsuarioRequestDTO dto, Usuario entity) {
+    public Usuario updateEntityFromDto(PerfilResponseDTO dto, Usuario entity) {
         if ( dto == null ) {
             return entity;
         }
 
         entity.setNome( dto.nome() );
         entity.setEmail( dto.email() );
-        entity.setSenha( dto.senha() );
         entity.setCpfCnpj( dto.cpfCnpj() );
-        entity.setRole( dto.role() );
 
         return entity;
     }
@@ -86,5 +85,24 @@ public class UsuarioMapperImpl implements UsuarioMapper {
         }
 
         return list;
+    }
+
+    @Override
+    public PerfilResponseDTO toPerfilResponseDTO(Usuario usuario) {
+        if ( usuario == null ) {
+            return null;
+        }
+
+        String nome = null;
+        String email = null;
+        String cpfCnpj = null;
+
+        nome = usuario.getNome();
+        email = usuario.getEmail();
+        cpfCnpj = usuario.getCpfCnpj();
+
+        PerfilResponseDTO perfilResponseDTO = new PerfilResponseDTO( nome, email, cpfCnpj );
+
+        return perfilResponseDTO;
     }
 }

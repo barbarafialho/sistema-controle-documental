@@ -1,5 +1,6 @@
 package br.com.barbara.sistema_controle_documental.model;
 
+import br.com.barbara.sistema_controle_documental.model.validate.UsuarioInterface;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "condicionante")
-public class Condicionante {
+public class Condicionante implements UsuarioInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,9 @@ public class Condicionante {
     @Column(nullable = false)
     private boolean concluida;
 
+    @Column(name = "caminho_arquivo", nullable = false)
+    private String caminhoArquivo;
+
     @ManyToOne
     @JoinColumn(name = "documento_id")
     private Documento documento;
@@ -31,6 +35,11 @@ public class Condicionante {
 
     @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
+
+    @Override
+    public Long getUsuarioID() {
+        return this.documento.getPropriedade().getUsuario().getId();
+    }
 
     //Antes de inserir ou atualizar, insere a data atual
     @PrePersist
@@ -99,4 +108,13 @@ public class Condicionante {
     public void setAtualizadoEm(LocalDateTime atualizadoEm) {
         this.atualizadoEm = atualizadoEm;
     }
+
+    public String getCaminhoArquivo() {
+        return caminhoArquivo;
+    }
+
+    public void setCaminhoArquivo(String caminhoArquivo) {
+        this.caminhoArquivo = caminhoArquivo;
+    }
+
 }

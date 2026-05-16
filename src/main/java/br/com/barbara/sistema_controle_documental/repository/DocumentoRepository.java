@@ -15,11 +15,12 @@ public interface DocumentoRepository extends JpaRepository<Documento, Long> {
     // Usando o padrão Derived Query Method para criar as funções de busca
     List<Documento> findByDataVencimentoAndStatus(LocalDate data, StatusDocumento status);
 
-    List<Documento> findByDataVencimentoBeforeAndStatus(LocalDate data, StatusDocumento status);
-
     @Query("SELECT d FROM Documento d " +
             "JOIN FETCH d.propriedade p " +
             "JOIN FETCH p.usuario u " +
             "WHERE d.dataVencimento < :hoje AND d.status = :status")
     List<Documento> findVencidosComUsuario(@Param("hoje") LocalDate hoje, @Param("status") StatusDocumento status);
+
+    @Query("SELECT d FROM Documento d WHERE d.propriedade.usuario.id = :usuarioId")
+    List<Documento> findUsuarioLogado(@Param("usuarioId") Long usuarioId);
 }

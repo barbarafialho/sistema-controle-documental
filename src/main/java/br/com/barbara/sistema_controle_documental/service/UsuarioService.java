@@ -1,12 +1,13 @@
 package br.com.barbara.sistema_controle_documental.service;
 
-import br.com.barbara.sistema_controle_documental.dto.PerfilDTO;
+import br.com.barbara.sistema_controle_documental.dto.PerfilResponseDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioRequestDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioResponseDTO;
 import br.com.barbara.sistema_controle_documental.exceptions.ResourceNotFoundException;
 import br.com.barbara.sistema_controle_documental.mapper.UsuarioMapper;
 import br.com.barbara.sistema_controle_documental.model.Usuario;
 import br.com.barbara.sistema_controle_documental.repository.UsuarioRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,23 +44,40 @@ public class UsuarioService implements UserDetailsService {
 
     @Transactional
     public UsuarioResponseDTO salvar(UsuarioRequestDTO dto) {
-        Usuario entidade = usuarioMapper.toEntity(dto);
+        if (usuarioRepository.existsByEmail(dto.email())) {
+            throw new DataIntegrityViolationException("Este e-mail já está cadastrado.");
+        }
+        if (usuarioRepository.existsByCpfCnpj(dto.cpfCnpj())) {
+            throw new DataIntegrityViolationException("Este CPF/CNPJ já está cadastrado.");
+        }
 
+        var entidade = usuarioMapper.toEntity(dto);
         entidade.setSenha(passwordEncoder.encode(entidade.getSenha()));
         entidade.setAtivo(true);
 
-        var entidadeSalva = usuarioRepository.save(entidade);
-        return usuarioMapper.toResponseDTO(entidadeSalva);
+        return usuarioMapper.toResponseDTO(usuarioRepository.save(entidade));
     }
 
     @Transactional
-    public UsuarioResponseDTO atualizarPerfil(PerfilDTO dto, Usuario usuarioLogado) {
+    public PerfilResponseDTO atualizarPerfil(PerfilResponseDTO dto, Usuario usuarioLogado) {
         // usuarioLogado que o SecurityFilter recuperou do banco
-        usuarioLogado.setNome(dto.nome());
-        usuarioLogado.setEmail(dto.email());
-        usuarioLogado.setCpfCnpj(dto.cpfCnpj());
+        var usuarioBD = usuarioRepository.findById(usuarioLogado.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        return usuarioMapper.toResponseDTO(usuarioRepository.save(usuarioLogado));
+        // Validação de Email Duplicado
+        if (!dto.email().equals(usuarioBD.getEmail()) && usuarioRepository.existsByEmail(dto.email())) {
+            throw new DataIntegrityViolationException("Este e-mail já está sendo usado por outro usuário.");
+        }
+
+        // Validação de CPF/CNPJ Duplicado
+        if (!dto.cpfCnpj().equals(usuarioBD.getCpfCnpj()) && usuarioRepository.existsByCpfCnpj(dto.cpfCnpj())) {
+            throw new DataIntegrityViolationException("Este CPF/CNPJ já está cadastrado.");
+        }
+
+        var entidade = usuarioMapper.updateEntityFromDto(dto, usuarioBD);
+
+        entidade = usuarioRepository.save(entidade);
+        return usuarioMapper.toPerfilResponseDTO(entidade);
     }
 
     @Transactional

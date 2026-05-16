@@ -11,7 +11,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface PropriedadeMapper {
-    @Mapping(source = "usuarioId", target = "usuario.id")
     Propriedade toEntity(PropriedadeRequestDTO dto);
 
     @Mapping(source = "usuario.id", target = "usuarioId")

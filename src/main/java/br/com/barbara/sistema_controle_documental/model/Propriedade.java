@@ -1,12 +1,13 @@
 package br.com.barbara.sistema_controle_documental.model;
 
+import br.com.barbara.sistema_controle_documental.model.validate.UsuarioInterface;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "propriedade")
-public class Propriedade {
+public class Propriedade implements UsuarioInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,11 @@ public class Propriedade {
 
     @OneToMany(mappedBy = "propriedade", cascade = CascadeType.ALL)
     private List<Documento> documentoList;
+
+    @Override
+    public Long getUsuarioID() {
+        return this.usuario.getId();
+    }
 
     public Long getId() {
         return id;

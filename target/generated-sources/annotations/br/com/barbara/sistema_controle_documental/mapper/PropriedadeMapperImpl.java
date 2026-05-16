@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-01T20:20:11-0300",
+    date = "2026-05-15T21:24:12-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)"
 )
 @Component
@@ -25,7 +25,6 @@ public class PropriedadeMapperImpl implements PropriedadeMapper {
 
         Propriedade propriedade = new Propriedade();
 
-        propriedade.setUsuario( propriedadeRequestDTOToUsuario( dto ) );
         propriedade.setNome( dto.nome() );
         propriedade.setCnpj( dto.cnpj() );
         propriedade.setAreaTotal( dto.areaTotal() );
@@ -85,18 +84,6 @@ public class PropriedadeMapperImpl implements PropriedadeMapper {
         }
 
         return list;
-    }
-
-    protected Usuario propriedadeRequestDTOToUsuario(PropriedadeRequestDTO propriedadeRequestDTO) {
-        if ( propriedadeRequestDTO == null ) {
-            return null;
-        }
-
-        Usuario usuario = new Usuario();
-
-        usuario.setId( propriedadeRequestDTO.usuarioId() );
-
-        return usuario;
     }
 
     private Long propriedadeUsuarioId(Propriedade propriedade) {

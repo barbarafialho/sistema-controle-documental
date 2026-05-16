@@ -1,5 +1,7 @@
 *.class
 
+/uploads/
+/target/
 
 /node_modules
 

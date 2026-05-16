@@ -1,5 +1,7 @@
 cors:
   originPatterns: "*"
+file:
+  upload-dir: uploads
 email:
   subject: "Default Subject"
   message: "Default Message"
@@ -20,6 +22,10 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 10MB     # Tamanho máximo de um único arquivo
+      max-request-size: 10MB  # Tamanho máximo da requisição inteira
 springdoc:
   api-docs:
     path: /v3/api-docs

@@ -86,14 +86,6 @@ public class Usuario implements UserDetails {
         this.ativo = ativo;
     }
 
-    public List<Propriedade> getPropriedadeList() {
-        return propriedadeList;
-    }
-
-    public void setPropriedadeList(List<Propriedade> propriedadeList) {
-        this.propriedadeList = propriedadeList;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -128,7 +120,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.ativo;
+        return true;
     }
 
     @Override

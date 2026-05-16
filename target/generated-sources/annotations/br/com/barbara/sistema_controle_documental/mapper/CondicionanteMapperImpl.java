@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-01T20:20:10-0300",
+    date = "2026-05-15T21:24:12-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)"
 )
 @Component
@@ -30,6 +30,7 @@ public class CondicionanteMapperImpl implements CondicionanteMapper {
         condicionante.setDocumento( condicionanteRequestDTOToDocumento( dto ) );
         condicionante.setDescricao( dto.descricao() );
         condicionante.setDataPrazo( dto.dataPrazo() );
+        condicionante.setConcluida( dto.concluida() );
 
         return condicionante;
     }
@@ -45,6 +46,7 @@ public class CondicionanteMapperImpl implements CondicionanteMapper {
         String descricao = null;
         LocalDate dataPrazo = null;
         boolean concluida = false;
+        String caminhoArquivo = null;
         LocalDateTime criadoEm = null;
         LocalDateTime atualizadoEm = null;
 
@@ -53,10 +55,11 @@ public class CondicionanteMapperImpl implements CondicionanteMapper {
         descricao = condicionante.getDescricao();
         dataPrazo = condicionante.getDataPrazo();
         concluida = condicionante.isConcluida();
+        caminhoArquivo = condicionante.getCaminhoArquivo();
         criadoEm = condicionante.getCriadoEm();
         atualizadoEm = condicionante.getAtualizadoEm();
 
-        CondicionanteResponseDTO condicionanteResponseDTO = new CondicionanteResponseDTO( id, descricao, dataPrazo, concluida, documentoId, criadoEm, atualizadoEm );
+        CondicionanteResponseDTO condicionanteResponseDTO = new CondicionanteResponseDTO( id, descricao, dataPrazo, concluida, caminhoArquivo, documentoId, criadoEm, atualizadoEm );
 
         return condicionanteResponseDTO;
     }
@@ -69,6 +72,7 @@ public class CondicionanteMapperImpl implements CondicionanteMapper {
 
         entity.setDescricao( dto.descricao() );
         entity.setDataPrazo( dto.dataPrazo() );
+        entity.setConcluida( dto.concluida() );
 
         return entity;
     }

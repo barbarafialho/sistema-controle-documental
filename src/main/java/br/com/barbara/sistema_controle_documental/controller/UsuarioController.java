@@ -1,6 +1,6 @@
 package br.com.barbara.sistema_controle_documental.controller;
 
-import br.com.barbara.sistema_controle_documental.dto.PerfilDTO;
+import br.com.barbara.sistema_controle_documental.dto.PerfilResponseDTO;
 import br.com.barbara.sistema_controle_documental.dto.UsuarioResponseDTO;
 import br.com.barbara.sistema_controle_documental.model.Usuario;
 import br.com.barbara.sistema_controle_documental.service.UsuarioService;
@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/perfil")
-    public ResponseEntity<UsuarioResponseDTO> atualizarMeusDados(@RequestBody PerfilDTO dto) {
+    public ResponseEntity<PerfilResponseDTO> atualizarMeusDados(@RequestBody PerfilResponseDTO dto) {
         Usuario logado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(usuarioService.atualizarPerfil(dto, logado));
     }

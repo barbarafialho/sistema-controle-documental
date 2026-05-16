@@ -1,11 +1,10 @@
 package br.com.barbara.sistema_controle_documental.exceptions.handler;
 
-import br.com.barbara.sistema_controle_documental.exceptions.ExceptionResponse;
-import br.com.barbara.sistema_controle_documental.exceptions.ResourceNotFoundException;
-import br.com.barbara.sistema_controle_documental.exceptions.TokenException;
+import br.com.barbara.sistema_controle_documental.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
-                ex.getMessage(),
+                "Ocorreu um erro interno inesperado.",
                 request.getDescription(false)
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -32,7 +31,7 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(Exception ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
-                ex.getMessage(),
+                "Recurso não encontrado.",
                 request.getDescription(false)
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -52,9 +51,40 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ExceptionResponse> handleTokenException(Exception ex, WebRequest request) {
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
-                ex.getMessage(),
+                "Erro ao gerar Token JWT",
                 request.getDescription(false)
         );
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(FileStorageException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileStorageException(Exception ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                "Erro ao armazenar arquivo.",
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileNotFoundException(Exception ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                "Arquivo não encontrado.",
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public final ResponseEntity<ExceptionResponse> handleDisabledException(DisabledException ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                "Conta desativada. Por favor entre em contato com o administrador.",
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 }

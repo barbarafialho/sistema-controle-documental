@@ -1,0 +1,1 @@
+ALTER TABLE condicionante ADD COLUMN caminho_arquivo VARCHAR(255);

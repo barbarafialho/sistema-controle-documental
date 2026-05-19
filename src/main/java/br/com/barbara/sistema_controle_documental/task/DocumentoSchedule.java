@@ -25,7 +25,7 @@ public class DocumentoSchedule {
 
     private final Logger logger = LoggerFactory.getLogger(DocumentoSchedule.class.getName());
 
-    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void checkDocumentos(){
         List<Integer> datasAviso = List.of(30, 15);
